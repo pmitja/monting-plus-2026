@@ -1,0 +1,15 @@
+{
+  "language": {
+    "label": "Language selection"
+  },
+  "site": {
+    "brand": "Monting Plus",
+    "positioning": "Organized industrial assembly subcontractor with certified own teams.",
+    "cta": "Request availability",
+    "seo": {
+      "title": "Monting Plus | Industrial Assembly Teams Across Europe",
+      "description": "Industrial assembly subcontractor with certified fitters and welders, onsite leadership and heavy industry project experience.",
+      "keywords": ["industrial assembly", "plant assembly", "structural steel assembly", "shutdown support", "EN 1090"]
+    }
+  }
+}
