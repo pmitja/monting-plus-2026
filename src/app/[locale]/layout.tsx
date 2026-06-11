@@ -51,9 +51,9 @@ export default async function LocaleLayout({
   return (
     <html
       lang={locale}
-      className={`${ibmPlexSans.variable} ${sora.variable} h-full antialiased`}
+      className={`${ibmPlexSans.variable} ${sora.variable} antialiased`}
     >
-      <body className="flex min-h-full flex-col">
+      <body className="flex min-h-screen flex-col">
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>
     </html>

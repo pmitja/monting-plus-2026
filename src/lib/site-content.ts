@@ -71,6 +71,7 @@ export type SiteContent = {
     subtitle: string;
     primaryCta: string;
     secondaryCta: string;
+    phases: string[];
     trust: string[];
     stats: Card[];
     whyTitle: string;
@@ -143,7 +144,6 @@ const content: Record<Locale, SiteContent> = {
     nav: {
       quote: "Povpraševanje",
       items: [
-        { href: "/", label: "Domov" },
         { href: "/about", label: "O podjetju" },
         { href: "/services", label: "Storitve" },
         { href: "/certifications", label: "Certifikati" },
@@ -177,11 +177,12 @@ const content: Record<Locale, SiteContent> = {
     home: {
       eyebrow: "Industriemontaža po Evropi",
       title:
-        "Industrijski montažni podizvajalec s 25 monterji in varilci za zahtevne projekte.",
+        "Industrijske montažne in varilske rešitve za Nemčijo in Evropo",
       subtitle:
-        "EN 1090 in SCC certificirane montažne ekipe z vodenjem na terenu, usposobljenostjo za delo na višini in 14 leti izkušenj v industrijskih projektih.",
-      primaryCta: "Preveri razpoložljivost",
-      secondaryCta: "Dogovori klic",
+        "Monting Plus izvaja industrijsko montažo, jeklene konstrukcije, varjenje in instalacije za proizvodne, logistične, energetske in infrastrukturne projekte po vsej Evropi.",
+      primaryCta: "Pošlji povpraševanje",
+      secondaryCta: "Oglej si reference",
+      phases: ["Planiranje", "Inženiring", "Izdelava", "Montaža", "Predaja"],
       trust: [
         "25 monterjev in varilcev",
         "2 vodji ekip",
@@ -506,11 +507,12 @@ function makeHome(locale: Exclude<Locale, "sl">): SiteContent["home"] {
     return {
       eyebrow: "Industriemontage in Europa",
       title:
-        "Industriemontage-Subunternehmer mit 25 Monteuren und Schweißern für Schwerindustrie-Projekte.",
+        "Industrielle Montage- und Schweißlösungen für Deutschland und Europa",
       subtitle:
-        "EN 1090 und SCC zertifizierte Montageteams mit Bauleitung vor Ort, Höhenarbeitszertifizierung und 14 Jahren internationaler Projekterfahrung.",
-      primaryCta: "Verfügbares Team anfragen",
-      secondaryCta: "Termin vereinbaren",
+        "Monting Plus liefert Industriemontage, Stahlbau, Schweißtechnik und Installationsleistungen für Produktions-, Logistik-, Energie- und Infrastrukturprojekte in ganz Europa.",
+      primaryCta: "Projekt anfragen",
+      secondaryCta: "Referenzen ansehen",
+      phases: ["Planung", "Engineering", "Fertigung", "Montage", "Übergabe"],
       trust: [
         "25 Monteure und Schweißer",
         "2 Teamleiter",
@@ -666,11 +668,12 @@ function makeHome(locale: Exclude<Locale, "sl">): SiteContent["home"] {
       ...makeHome("en"),
       eyebrow: "Industrijska montaža širom Evrope",
       title:
-        "Industrijski montažni podizvođač sa 25 montera i zavarivača za zahtevne projekte.",
+        "Industrijska montažna i zavarivačka rešenja za Nemačku i Evropu",
       subtitle:
-        "EN 1090 i SCC sertifikovane montažne ekipe sa vođenjem na terenu, radom na visini i 14 godina međunarodnog iskustva.",
-      primaryCta: "Zatraži raspoloživ tim",
-      secondaryCta: "Zakaži poziv",
+        "Monting Plus izvodi industrijsku montažu, čelične konstrukcije, zavarivanje i instalacije za proizvodne, logističke, energetske i infrastrukturne projekte širom Evrope.",
+      primaryCta: "Pošalji upit",
+      secondaryCta: "Pogledaj reference",
+      phases: ["Planiranje", "Inženjering", "Izrada", "Montaža", "Primopredaja"],
       trust: [
         "25 montera i zavarivača",
         "2 vođe ekipa",
@@ -806,11 +809,12 @@ function makeHome(locale: Exclude<Locale, "sl">): SiteContent["home"] {
   return {
     eyebrow: "Industrial assembly across Europe",
     title:
-      "Industrial assembly subcontractor with 25 skilled fitters and welders for heavy industry projects.",
+      "Industrial assembly and welding solutions for Germany and Europe",
     subtitle:
-      "EN 1090 and SCC certified assembly teams with onsite leadership, work-at-height certification and 14 years of industrial project experience.",
-    primaryCta: "Request available team",
-    secondaryCta: "Schedule a call",
+      "Monting Plus delivers industrial assembly, steel construction, welding, and installation services for manufacturing, logistics, energy, and infrastructure projects across Europe.",
+    primaryCta: "Request a project",
+    secondaryCta: "View references",
+    phases: ["Planning", "Engineering", "Fabrication", "Installation", "Handover"],
     trust: [
       "25 fitters & welders",
       "2 team leaders",

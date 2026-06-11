@@ -1,10 +1,18 @@
-import { ArrowRight, Building2, Globe2, ShieldCheck, UsersRound } from "lucide-react";
+import { Building2, Globe2, ShieldCheck, UsersRound } from "lucide-react";
+import Image from "next/image";
 
-import { Button } from "@/components/ui/button";
-import { Link } from "@/i18n/navigation";
 import type { SiteContent } from "@/lib/site-content";
 
-import { CardGrid, ContactStrip, SectionHeader, SiteShell } from "./layout";
+import {
+  CardGrid,
+  ContactStrip,
+  DisplayTitle,
+  Eyebrow,
+  GhostButton,
+  GoldButton,
+  SectionHeader,
+  SiteShell,
+} from "./layout";
 
 export function AboutPageView({ content }: { content: SiteContent }) {
   const page = content.pages.about;
@@ -12,44 +20,44 @@ export function AboutPageView({ content }: { content: SiteContent }) {
   return (
     <SiteShell content={content}>
       <main className="animate-page-enter">
-        <section
-          className="relative overflow-hidden bg-slate-950 bg-cover bg-center text-white"
-          style={{ backgroundImage: "url('/images/industrial-steel-structure.jpg')" }}
-        >
-          <div className="absolute inset-0 bg-slate-950/72" />
-          <div className="absolute inset-0 bg-linear-to-r from-slate-950 via-slate-950/84 to-slate-950/32" />
-          <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.92fr_1.08fr] lg:px-8 lg:py-24">
-            <div className="reveal-stagger flex max-w-[22rem] flex-col justify-center sm:max-w-none">
-              <p className="eyebrow text-xs font-bold uppercase tracking-[0.18em] text-orange-300">
-                {page.eyebrow}
-              </p>
-              <h1 className="mt-5 text-[2rem] font-semibold leading-tight tracking-normal sm:text-6xl">
+        {/* Hero */}
+        <section className="relative overflow-hidden">
+          <div className="absolute inset-0" aria-hidden="true">
+            <Image
+              src="/images/industrial-steel-structure.jpg"
+              alt=""
+              fill
+              priority
+              className="object-cover opacity-30"
+              sizes="100vw"
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(100deg,oklch(0.13_0.006_260/0.97)_0%,oklch(0.13_0.006_260/0.8)_45%,oklch(0.13_0.006_260/0.4)_80%,oklch(0.13_0.006_260/0.65)_100%)]" />
+            <div className="absolute inset-x-0 bottom-0 h-32 bg-linear-to-t from-graphite to-transparent" />
+          </div>
+
+          <div className="relative mx-auto grid max-w-[88rem] gap-12 px-5 pb-20 pt-40 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:px-12 lg:pb-28 lg:pt-48">
+            <div className="reveal-stagger flex flex-col justify-center">
+              <Eyebrow withRule>{page.eyebrow}</Eyebrow>
+              <DisplayTitle as="h1" className="mt-7 hyphens-auto">
                 {page.title}
-              </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">{page.description}</p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Button asChild size="lg" className="bg-orange-600 shadow-orange-950/20 hover:bg-orange-500 hover:shadow-orange-500/25">
-                  <Link href="/contact">
-                    {content.nav.quote}
-                    <ArrowRight data-icon="inline-end" />
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  size="lg"
-                  variant="outline"
-                  className="border-white/24 bg-white/10 text-white backdrop-blur hover:border-white/40 hover:bg-white/18 hover:text-white"
-                >
-                  <Link href="/team">{content.pages.team.eyebrow}</Link>
-                </Button>
+              </DisplayTitle>
+              <p className="mt-7 max-w-2xl text-pretty text-lg leading-8 text-titanium/85">
+                {page.description}
+              </p>
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <GoldButton href="/contact">{content.nav.quote}</GoldButton>
+                <GhostButton href="/team">{content.pages.team.eyebrow}</GhostButton>
               </div>
             </div>
-            <div className="flex items-end">
-              <div className="animate-float-in reveal-stagger grid w-full gap-3 rounded-lg border border-white/12 bg-slate-950/72 p-4 shadow-2xl shadow-slate-950/30 backdrop-blur sm:grid-cols-3">
+
+            <div className="hidden items-end lg:flex">
+              <div className="animate-float-in industrial-panel grid w-full grid-cols-3 divide-x divide-white/[0.07] rounded-2xl">
                 {content.home.stats.slice(0, 3).map((stat) => (
-                  <div key={stat.title} className="motion-card rounded-md bg-white/8 p-4">
-                    <p className="text-2xl font-semibold">{stat.title}</p>
-                    <p className="mt-1 text-xs leading-5 text-slate-300">{stat.text}</p>
+                  <div key={stat.title} className="p-6">
+                    <p className="display-index text-3xl font-semibold text-gradient-gold">
+                      {stat.title}
+                    </p>
+                    <p className="mt-3 text-xs leading-5 text-white/55">{stat.text}</p>
                   </div>
                 ))}
               </div>
@@ -57,13 +65,16 @@ export function AboutPageView({ content }: { content: SiteContent }) {
           </div>
         </section>
 
-        <section className="py-20">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Operating model */}
+        <section className="relative bg-anthracite/60">
+          <div className="absolute inset-0 blueprint-grid opacity-50" aria-hidden="true" />
+          <div className="relative mx-auto max-w-[88rem] px-5 py-24 sm:px-8 lg:px-12">
             <SectionHeader
+              eyebrow="Monting Plus"
               title={content.home.contractorTitle}
               text={content.home.contractorText}
             />
-            <div className="reveal-stagger mt-10 grid gap-4 lg:grid-cols-4">
+            <div className="reveal-stagger mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <ValueCard icon={UsersRound} title={content.home.why[0].title} text={content.home.why[0].text} />
               <ValueCard icon={Building2} title={content.home.why[1].title} text={content.home.why[1].text} />
               <ValueCard icon={ShieldCheck} title={content.home.certificationsTitle} text={content.home.certificationsIntro} />
@@ -72,44 +83,73 @@ export function AboutPageView({ content }: { content: SiteContent }) {
           </div>
         </section>
 
-        <section className="border-y border-slate-200 bg-white py-20">
-          <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
-            <div>
-              <SectionHeader title={content.home.workflowTitle} text={content.home.workflowText} />
-            </div>
-            <div className="reveal-stagger grid gap-3">
-              {content.home.workflow.map((step, index) => (
-                <div key={step} className="motion-card scroll-reveal flex items-center gap-4 rounded-lg border border-slate-200 bg-slate-50 p-4">
-                  <span className="flex size-10 shrink-0 items-center justify-center rounded-md bg-slate-950 text-sm font-bold text-white">
-                    {index + 1}
+        {/* Chain of command */}
+        <section className="py-24">
+          <div className="mx-auto grid max-w-[88rem] items-start gap-12 px-5 sm:px-8 lg:grid-cols-[1fr_1fr] lg:gap-20 lg:px-12">
+            <SectionHeader title={content.home.workflowTitle} text={content.home.workflowText} />
+            <ol>
+              {content.home.workflow.map((step, i) => (
+                <li key={step} className="scroll-reveal relative flex gap-7 pb-10 last:pb-0">
+                  {i < content.home.workflow.length - 1 ? (
+                    <span
+                      className="absolute left-[15px] top-9 h-full w-px bg-linear-to-b from-gold/60 to-white/10"
+                      aria-hidden="true"
+                    />
+                  ) : null}
+                  <span className="flex size-8 shrink-0 items-center justify-center rounded-full border border-gold/45 bg-graphite text-[11px] font-bold text-gold">
+                    {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className="font-semibold uppercase tracking-[0.08em] text-slate-900">{step}</span>
+                  <p className="pt-1 text-base font-semibold leading-7 text-white/85">
+                    {step}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        {/* About cards */}
+        <section className="relative bg-graphite/90 py-24">
+          <div className="absolute inset-x-0 top-0 h-px gold-hairline opacity-40" aria-hidden="true" />
+          <div className="mx-auto max-w-[88rem] px-5 sm:px-8 lg:px-12">
+            <SectionHeader title={content.home.projectsTitle} text={content.home.projectsIntro} />
+            <div className="mt-12">
+              <CardGrid cards={page.cards} />
+            </div>
+          </div>
+        </section>
+
+        {/* Image + stats */}
+        <section className="py-24">
+          <div className="mx-auto grid max-w-[88rem] items-center gap-10 px-5 sm:px-8 lg:grid-cols-[1.1fr_0.9fr] lg:px-12">
+            <div className="scroll-reveal relative min-h-[340px] overflow-hidden rounded-2xl border border-white/10">
+              <Image
+                src="/images/industrial-team.jpg"
+                alt="Monting Plus crews on site"
+                fill
+                className="object-cover opacity-90"
+                sizes="(min-width: 1024px) 55vw, 100vw"
+              />
+              <div className="absolute inset-0 bg-linear-to-t from-graphite/75 to-transparent" />
+            </div>
+            <div className="reveal-stagger grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10">
+              {content.home.stats.map((stat) => (
+                <div key={stat.title} className="bg-anthracite p-7">
+                  <p className="display-index text-[clamp(2.2rem,3.4vw,3.2rem)] font-semibold text-gradient-gold">
+                    {stat.title}
+                  </p>
+                  <p className="mt-3 text-sm leading-6 text-white/55">{stat.text}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="py-20">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <SectionHeader title={content.home.projectsTitle} text={content.home.projectsIntro} />
-            <div className="mt-10">
-              <CardGrid cards={page.cards} />
-            </div>
-          </div>
-        </section>
-
-        <section className="bg-slate-950 py-20 text-white">
-          <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
-            <div>
-              <SectionHeader
-                eyebrow="Monting Plus"
-                title={page.ctaTitle}
-                text={page.ctaText}
-                inverted
-              />
-            </div>
-            <div className="scroll-reveal">
+        {/* CTA */}
+        <section className="relative overflow-hidden pb-32 pt-4">
+          <div className="mx-auto grid max-w-[88rem] gap-12 px-5 sm:px-8 lg:grid-cols-[1fr_1fr] lg:gap-20 lg:px-12">
+            <SectionHeader eyebrow="Monting Plus" title={page.ctaTitle} text={page.ctaText} />
+            <div className="scroll-reveal self-center">
               <ContactStrip content={content} />
             </div>
           </div>
@@ -129,10 +169,12 @@ function ValueCard({
   text: string;
 }) {
   return (
-    <article className="motion-card scroll-reveal group rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-      <Icon className="motion-icon size-6 text-orange-600" aria-hidden="true" />
-      <h3 className="mt-5 text-xl font-semibold tracking-normal text-slate-950">{title}</h3>
-      <p className="mt-3 text-sm leading-7 text-slate-600">{text}</p>
+    <article className="motion-card scroll-reveal group industrial-panel flex min-h-[200px] flex-col justify-between rounded-2xl p-7 transition-colors duration-300 hover:border-gold/30">
+      <Icon className="motion-icon size-6 text-gold" aria-hidden="true" />
+      <div>
+        <h3 className="mt-6 text-lg font-semibold leading-snug text-white">{title}</h3>
+        <p className="mt-2 text-sm leading-7 text-white/55">{text}</p>
+      </div>
     </article>
   );
 }

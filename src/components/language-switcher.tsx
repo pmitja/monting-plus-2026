@@ -48,7 +48,7 @@ export function LanguageSwitcher() {
     <Select value={locale} onValueChange={handleLocaleChange} disabled={isPending}>
       <SelectTrigger
         aria-label={t("label")}
-        className="h-9 min-w-20 border-slate-200 bg-white px-2.5 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:ring-orange-500/25"
+        className="h-11 border-white/12 bg-white/[0.05] px-3 text-[13px] font-bold uppercase tracking-[0.08em] text-white/80 backdrop-blur transition-colors hover:border-gold/50 hover:bg-white/10 hover:text-white focus-visible:ring-gold/30 max-sm:[&_.text-muted-foreground]:hidden sm:min-w-20 [&_svg]:text-white/50"
       >
         <SelectValue />
       </SelectTrigger>

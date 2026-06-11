@@ -1,4 +1,5 @@
-import { ArrowRight, BriefcaseBusiness, CalendarRange, HardHat, UsersRound } from "lucide-react";
+import { BriefcaseBusiness, CalendarRange, HardHat, UsersRound } from "lucide-react";
+import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
@@ -12,11 +13,21 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import type { SiteContent } from "@/lib/site-content";
 
-import { CardGrid, SectionHeader, SiteShell } from "./layout";
+import {
+  CardGrid,
+  DisplayTitle,
+  Eyebrow,
+  GoldButton,
+  SectionHeader,
+  SiteShell,
+} from "./layout";
+
+const darkFieldLabel = "text-xs font-bold uppercase tracking-[0.1em] text-white/55";
+const darkInput =
+  "h-11 border-white/12 bg-white/[0.05] text-white transition-colors placeholder:text-white/35 hover:border-white/25 focus-visible:border-gold focus-visible:ring-gold/25 [color-scheme:dark]";
 
 type TeamPageProps = {
   content: SiteContent;
@@ -93,84 +104,101 @@ export function TeamPageView({ content, locale }: TeamPageProps) {
   return (
     <SiteShell content={content}>
       <main className="animate-page-enter">
-        <section
-          className="relative overflow-hidden bg-slate-950 bg-cover bg-center text-white"
-          style={{ backgroundImage: "url('/images/industrial-team.jpg')" }}
-        >
-          <div className="absolute inset-0 bg-slate-950/72" />
-          <div className="absolute inset-0 bg-linear-to-r from-slate-950 via-slate-950/84 to-slate-950/32" />
-          <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-24">
-            <div className="reveal-stagger flex max-w-[22rem] flex-col justify-center sm:max-w-none">
-              <p className="eyebrow text-xs font-bold uppercase tracking-[0.18em] text-orange-300">
-                {page.eyebrow}
-              </p>
-              <h1 className="mt-5 text-[2rem] font-semibold leading-tight tracking-normal sm:text-6xl">
+        {/* Hero */}
+        <section className="relative overflow-hidden">
+          <div className="absolute inset-0" aria-hidden="true">
+            <Image
+              src="/images/industrial-team.jpg"
+              alt=""
+              fill
+              priority
+              className="object-cover opacity-35"
+              sizes="100vw"
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(100deg,oklch(0.13_0.006_260/0.97)_0%,oklch(0.13_0.006_260/0.8)_45%,oklch(0.13_0.006_260/0.4)_80%,oklch(0.13_0.006_260/0.65)_100%)]" />
+            <div className="absolute inset-x-0 bottom-0 h-32 bg-linear-to-t from-graphite to-transparent" />
+          </div>
+
+          <div className="relative mx-auto grid max-w-[88rem] gap-12 px-5 pb-20 pt-40 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:px-12 lg:pb-28 lg:pt-48">
+            <div className="reveal-stagger flex flex-col justify-center">
+              <Eyebrow withRule>{page.eyebrow}</Eyebrow>
+              <DisplayTitle as="h1" className="mt-7 hyphens-auto">
                 {page.title}
-              </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">{page.description}</p>
-              <div className="mt-8 flex flex-wrap gap-2">
+              </DisplayTitle>
+              <p className="mt-7 max-w-2xl text-pretty text-lg leading-8 text-titanium/85">
+                {page.description}
+              </p>
+              <ul className="mt-9 flex flex-wrap gap-x-8 gap-y-3 border-t border-white/10 pt-6">
                 {content.home.trust.slice(0, 5).map((item) => (
-                  <span key={item} className="rounded-md border border-white/10 bg-white/8 px-3 py-2 text-xs font-semibold uppercase tracking-[0.08em]">
+                  <li
+                    key={item}
+                    className="flex items-center gap-2.5 text-[13px] font-semibold tracking-wide text-white/55"
+                  >
+                    <span className="size-1 rounded-full bg-gold" aria-hidden="true" />
                     {item}
-                  </span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
-            <div className="hidden items-end lg:flex">
-              <div className="animate-float-in max-w-xl rounded-lg border border-white/12 bg-slate-950/72 p-5 shadow-2xl shadow-slate-950/30 backdrop-blur">
-                <p className="text-sm font-semibold text-orange-300">Monting Plus Teams</p>
-                <p className="mt-2 text-2xl font-semibold">{copy.requestTitle as string}</p>
-                <p className="mt-3 text-sm leading-7 text-slate-300">{copy.requestText as string}</p>
+            <div className="hidden items-end justify-end lg:flex">
+              <div className="animate-float-in industrial-panel max-w-md rounded-2xl p-8">
+                <span className="block h-px w-12 gold-hairline" aria-hidden="true" />
+                <p className="mt-5 text-[11px] font-bold uppercase tracking-[0.3em] text-gold">
+                  Monting Plus Teams
+                </p>
+                <p className="mt-4 text-2xl font-semibold leading-snug text-white">
+                  {copy.requestTitle as string}
+                </p>
+                <p className="mt-3 text-sm leading-7 text-white/55">{copy.requestText as string}</p>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="py-20">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Team structure */}
+        <section className="relative bg-anthracite/60">
+          <div className="absolute inset-0 blueprint-grid opacity-50" aria-hidden="true" />
+          <div className="relative mx-auto max-w-[88rem] px-5 py-24 sm:px-8 lg:px-12">
             <SectionHeader title={content.home.teamTitle} text={content.home.teamIntro} />
-            <div className="mt-10">
+            <div className="mt-12">
               <CardGrid cards={page.cards} />
             </div>
           </div>
         </section>
 
-        <section className="border-y border-slate-200 bg-white py-20">
-          <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
+        {/* Team request */}
+        <section className="py-24">
+          <div className="mx-auto grid max-w-[88rem] items-start gap-12 px-5 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:px-12">
             <div>
               <SectionHeader title={copy.requestTitle as string} text={copy.requestText as string} />
-              <div className="reveal-stagger mt-8 grid gap-4 sm:grid-cols-3">
+              <div className="reveal-stagger mt-10 grid gap-4 sm:grid-cols-3">
                 <MiniStat icon={BriefcaseBusiness} title={copy.industry as string} text={content.pages.industries.title} />
                 <MiniStat icon={UsersRound} title={copy.people as string} text="4 / 6 / 12+" />
                 <MiniStat icon={CalendarRange} title={copy.duration as string} text={(copy.durations as string[]).join(" · ")} />
               </div>
             </div>
-            <div className="scroll-reveal">
+            <div className="scroll-reveal industrial-panel rounded-2xl p-2">
               <TeamRequestForm content={content} copy={copy} />
             </div>
           </div>
         </section>
 
-        <section className="bg-slate-950 py-20 text-white">
-          <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
-            <div>
-              <SectionHeader
-                eyebrow="Monting Plus Careers"
-                title={copy.recruitTitle as string}
-                text={copy.recruitText as string}
-                inverted
-              />
-            </div>
-            <div className="motion-card scroll-reveal group rounded-lg border border-white/10 bg-white/6 p-6">
-              <HardHat className="motion-icon size-8 text-orange-300" aria-hidden="true" />
-              <p className="mt-5 text-xl font-semibold">{content.home.team[2].title}</p>
-              <p className="mt-3 text-sm leading-7 text-slate-300">{content.home.team[2].text}</p>
-              <Button asChild size="lg" className="mt-6 bg-orange-600 shadow-orange-950/20 hover:bg-orange-500 hover:shadow-orange-500/25">
-                <Link href="/contact">
-                  {copy.recruitCta as string}
-                  <ArrowRight data-icon="inline-end" />
-                </Link>
-              </Button>
+        {/* Careers */}
+        <section className="relative bg-graphite/90 py-24">
+          <div className="absolute inset-x-0 top-0 h-px gold-hairline opacity-40" aria-hidden="true" />
+          <div className="mx-auto grid max-w-[88rem] gap-12 px-5 sm:px-8 lg:grid-cols-[1fr_1fr] lg:gap-20 lg:px-12">
+            <SectionHeader
+              eyebrow="Monting Plus Careers"
+              title={copy.recruitTitle as string}
+              text={copy.recruitText as string}
+            />
+            <div className="motion-card scroll-reveal group industrial-panel rounded-2xl p-8 transition-colors duration-300 hover:border-gold/30">
+              <HardHat className="motion-icon size-8 text-gold" aria-hidden="true" />
+              <p className="mt-6 text-xl font-semibold text-white">{content.home.team[2].title}</p>
+              <p className="mt-3 text-sm leading-7 text-white/55">{content.home.team[2].text}</p>
+              <div className="mt-8">
+                <GoldButton href="/contact">{copy.recruitCta as string}</GoldButton>
+              </div>
             </div>
           </div>
         </section>
@@ -187,14 +215,15 @@ function TeamRequestForm({
   copy: (typeof teamCopy)[Locale];
 }) {
   return (
-    <Form className="rounded-lg border border-slate-200 bg-slate-50 p-4 shadow-sm sm:p-6">
+    <Form className="relative overflow-hidden rounded-lg border border-white/10 p-4 text-white sm:p-6">
+      <div className="absolute inset-x-0 top-0 h-px gold-hairline" aria-hidden="true" />
       <FieldGroup className="grid gap-4 sm:grid-cols-2">
         <Field>
-          <FieldLabel className="text-xs font-semibold uppercase tracking-[0.08em] text-slate-500">
+          <FieldLabel className={darkFieldLabel}>
             {copy.industry as string}
           </FieldLabel>
           <Select name="industry">
-            <SelectTrigger className="h-11 w-full bg-white">
+            <SelectTrigger className={`w-full ${darkInput}`}>
               <SelectValue placeholder={copy.industry as string} />
             </SelectTrigger>
             <SelectContent>
@@ -207,22 +236,22 @@ function TeamRequestForm({
           </Select>
         </Field>
         <Field>
-          <FieldLabel className="text-xs font-semibold uppercase tracking-[0.08em] text-slate-500">
+          <FieldLabel className={darkFieldLabel}>
             {copy.people as string}
           </FieldLabel>
           <Input
-            className="h-11 bg-white"
+            className={darkInput}
             name="people"
             placeholder="4-6 / 12 / 25"
             type="text"
           />
         </Field>
         <Field className="sm:col-span-2">
-          <FieldLabel className="text-xs font-semibold uppercase tracking-[0.08em] text-slate-500">
+          <FieldLabel className={darkFieldLabel}>
             {copy.duration as string}
           </FieldLabel>
           <Select name="duration">
-            <SelectTrigger className="h-11 w-full bg-white">
+            <SelectTrigger className={`w-full ${darkInput}`}>
               <SelectValue placeholder={copy.duration as string} />
             </SelectTrigger>
             <SelectContent>
@@ -235,11 +264,11 @@ function TeamRequestForm({
           </Select>
         </Field>
         <Field className="sm:col-span-2">
-          <FieldLabel className="text-xs font-semibold uppercase tracking-[0.08em] text-slate-500">
+          <FieldLabel className={darkFieldLabel}>
             {copy.message as string}
           </FieldLabel>
           <Textarea
-            className="min-h-28 bg-white"
+            className="min-h-28 border-white/12 bg-white/[0.05] text-white placeholder:text-white/35 hover:border-white/25 focus-visible:border-gold focus-visible:ring-gold/25"
             name="message"
             placeholder={content.form.description}
           />
@@ -247,7 +276,7 @@ function TeamRequestForm({
       </FieldGroup>
       <Button
         type="submit"
-        className="h-12 w-full cursor-pointer bg-orange-600 text-white hover:bg-orange-500 hover:shadow-orange-500/25"
+        className="h-12 w-full cursor-pointer bg-gold font-semibold text-graphite shadow-lg shadow-gold/20 hover:bg-gold-bright hover:shadow-gold/30 focus-visible:ring-gold/30"
       >
         {copy.submit as string}
       </Button>
@@ -265,10 +294,10 @@ function MiniStat({
   text: string;
 }) {
   return (
-    <div className="motion-card scroll-reveal group rounded-lg border border-slate-200 bg-slate-50 p-4">
-      <Icon className="motion-icon size-5 text-orange-600" aria-hidden="true" />
-      <p className="mt-4 text-sm font-semibold text-slate-950">{title}</p>
-      <p className="mt-1 text-xs leading-5 text-slate-600">{text}</p>
+    <div className="motion-card scroll-reveal group industrial-panel rounded-xl p-5 transition-colors duration-300 hover:border-gold/30">
+      <Icon className="motion-icon size-5 text-gold" aria-hidden="true" />
+      <p className="mt-4 text-sm font-semibold text-white">{title}</p>
+      <p className="mt-1 text-xs leading-5 text-white/55">{text}</p>
     </div>
   );
 }

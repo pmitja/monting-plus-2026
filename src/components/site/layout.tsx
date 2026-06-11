@@ -1,11 +1,13 @@
 import Image from "next/image";
 import {
+  ArrowRight,
   ChevronRight,
   Mail,
   MessageCircle,
   Phone,
 } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import type { Card, SiteContent } from "@/lib/site-content";
 import { cn } from "@/lib/utils";
@@ -15,6 +17,7 @@ import { SiteHeader } from "./site-header";
 type ShellProps = {
   children: React.ReactNode;
   content: SiteContent;
+  dark?: boolean;
 };
 
 const serviceCardImages = [
@@ -23,12 +26,17 @@ const serviceCardImages = [
   "/images/cards/hvac.webp",
   "/images/cards/transportni-sistemi.webp",
   "/images/cards/stahlbau.webp",
-  "/images/industrial-welder.jpg",
+  "/images/cards/sotori.webp",
 ] as const;
 
-export function SiteShell({ children, content }: ShellProps) {
+export function SiteShell({ children, content, dark = true }: ShellProps) {
   return (
-    <div className="min-h-screen overflow-x-hidden bg-slate-50 text-slate-950">
+    <div
+      className={cn(
+        "min-h-screen",
+        dark ? "bg-graphite text-white" : "bg-slate-50 text-slate-950",
+      )}
+    >
       <SiteHeader content={content} />
       {children}
       <StickyCta content={content} />
@@ -39,7 +47,7 @@ export function SiteShell({ children, content }: ShellProps) {
 
 export function StickyCta({ content }: { content: SiteContent }) {
   return (
-    <div className="animate-sticky-enter fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-slate-950/94 px-4 py-3 text-white shadow-2xl backdrop-blur sm:hidden">
+    <div className="animate-sticky-enter fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-graphite/95 px-4 py-3 text-white shadow-2xl backdrop-blur sm:hidden">
       <div className="mx-auto flex max-w-7xl items-center gap-2">
         <a
           href={`tel:${content.contact.phone.replaceAll(" ", "")}`}
@@ -50,7 +58,7 @@ export function StickyCta({ content }: { content: SiteContent }) {
         </a>
         <Link
           href="/contact"
-          className="inline-flex h-11 min-w-0 flex-1 items-center justify-center rounded-lg bg-orange-600 px-4 text-sm font-semibold shadow-sm transition-all duration-200 hover:bg-orange-500 hover:shadow-md hover:shadow-orange-500/25 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-orange-300/40"
+          className="inline-flex h-11 min-w-0 flex-1 items-center justify-center rounded-lg bg-gold text-graphite px-4 text-sm font-semibold shadow-sm transition-all duration-200 hover:bg-gold-bright hover:shadow-md hover:shadow-gold/25 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-gold/40"
         >
           <span className="truncate">{content.nav.quote}</span>
         </Link>
@@ -61,61 +69,196 @@ export function StickyCta({ content }: { content: SiteContent }) {
 
 export function SiteFooter({ content }: { content: SiteContent }) {
   return (
-    <footer className="scroll-reveal bg-slate-950 pb-24 pt-14 text-white sm:pb-10">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[1.2fr_0.8fr_0.8fr_0.8fr] lg:px-8">
-        <div>
-          <div className="flex items-center gap-3">
-            <Image
-              src="/images/monting-plus-logo.jpg"
-              alt="Monting Plus logo"
-              width={58}
-              height={64}
-              className="h-12 w-11 rounded-sm bg-white object-contain"
-            />
-            <div>
-              <p className="text-sm font-bold uppercase tracking-[0.14em]">Monting Plus</p>
-              <p className="mt-1 text-sm text-slate-400">{content.footer.company}</p>
+    <footer className="relative overflow-hidden border-t border-white/10 bg-graphite pb-24 pt-20 text-white sm:pb-12">
+      <div className="absolute inset-x-0 top-0 h-px gold-hairline opacity-60" aria-hidden="true" />
+      <div className="absolute inset-0 blueprint-grid opacity-40" aria-hidden="true" />
+
+      {/* Top row: brand statement + primary action */}
+      <div className="relative mx-auto max-w-[88rem] px-5 sm:px-8 lg:px-12">
+        <div className="flex flex-col gap-10 border-b border-white/[0.07] pb-14 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-xl">
+            <div className="flex items-center gap-4">
+              <Image
+                src="/images/monting-plus-logo-transparent.png"
+                alt="Monting Plus logo"
+                width={58}
+                height={64}
+                className="h-14 w-12 object-contain"
+              />
+              <div>
+                <p className="text-sm font-bold uppercase tracking-[0.22em]">Monting Plus</p>
+                <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.3em] text-gold">
+                  Industrial Assembly · Europe
+                </p>
+              </div>
             </div>
+            <p className="mt-7 text-base leading-8 text-white/55">{content.meta.description}</p>
           </div>
-          <p className="mt-6 max-w-sm text-sm leading-7 text-slate-300">{content.meta.description}</p>
+          <div className="flex flex-col items-start gap-4 lg:items-end">
+            <Link
+              href="/contact"
+              className="group inline-flex h-14 items-center gap-3 rounded-lg bg-gold px-8 text-base font-semibold text-graphite shadow-[0_18px_44px_oklch(0.74_0.105_88/0.25)] transition-all duration-300 hover:bg-gold-bright focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-gold/40"
+            >
+              {content.nav.quote}
+              <ChevronRight className="motion-icon size-4 stroke-[2.6]" aria-hidden="true" />
+            </Link>
+            <p className="text-xs font-semibold text-white/35">{content.contact.response}</p>
+          </div>
         </div>
 
-        <FooterGroup title={content.footer.legal}>
-          <p>{content.contact.address}</p>
-          <p>{content.contact.vat}</p>
-          <Link href="/legal">{content.footer.legal}</Link>
-        </FooterGroup>
+        {/* Link grid */}
+        <div className="grid gap-12 py-14 sm:grid-cols-2 lg:grid-cols-4">
+          <FooterGroup index={1} title={content.footer.contact}>
+            <a href={`tel:${content.contact.phone.replaceAll(" ", "")}`} className="flex items-center gap-3">
+              <Phone className="size-4 shrink-0 text-gold" aria-hidden="true" />
+              {content.contact.phone}
+            </a>
+            <a href={`https://wa.me/${content.contact.whatsapp.replace(/\D/g, "")}`} className="flex items-center gap-3">
+              <MessageCircle className="size-4 shrink-0 text-gold" aria-hidden="true" />
+              WhatsApp
+            </a>
+            <a href={`mailto:${content.contact.email}`} className="flex items-center gap-3">
+              <Mail className="size-4 shrink-0 text-gold" aria-hidden="true" />
+              {content.contact.email}
+            </a>
+          </FooterGroup>
 
-        <FooterGroup title={content.footer.contact}>
-          <a href={`mailto:${content.contact.email}`}>{content.contact.email}</a>
-          <a href={`tel:${content.contact.phone.replaceAll(" ", "")}`}>{content.contact.phone}</a>
-          <a href={`https://wa.me/${content.contact.whatsapp.replace(/\D/g, "")}`}>WhatsApp</a>
-        </FooterGroup>
+          <FooterGroup index={2} title={content.footer.certifications}>
+            <p>EN 1090 EXC4</p>
+            <p>SCC</p>
+            <p>DIN EN ISO 9606-1</p>
+            <Link href="/certifications">{content.footer.downloads}</Link>
+          </FooterGroup>
 
-        <FooterGroup title={content.footer.certifications}>
-          <p>EN 1090 EXC4</p>
-          <p>SCC</p>
-          <p>DIN EN ISO 9606-1</p>
-          <Link href="/certifications">
-            {content.footer.downloads}
-          </Link>
-        </FooterGroup>
+          <FooterGroup index={3} title={content.footer.legal}>
+            <p>{content.footer.company}</p>
+            <p>{content.contact.address}</p>
+            <p>{content.contact.vat}</p>
+            <Link href="/legal">{content.footer.legal}</Link>
+          </FooterGroup>
+
+          <FooterGroup index={4} title="Navigation">
+            {content.nav.items.map((item) => (
+              <Link key={item.href} href={item.href}>
+                {item.label}
+              </Link>
+            ))}
+          </FooterGroup>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="flex flex-col gap-4 border-t border-white/[0.07] pt-8 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-xs text-white/35">{content.footer.copyright}</p>
+          <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-white/30">
+            EN 1090 EXC4 <span className="mx-2 text-gold/60">·</span> SCC
+            <span className="mx-2 text-gold/60">·</span> ISO 9606-1
+          </p>
+        </div>
       </div>
-      <p className="mx-auto mt-10 max-w-7xl px-4 text-xs text-slate-500 sm:px-6 lg:px-8">
-        {content.footer.copyright}
-      </p>
+
+      {/* Oversized engineering watermark */}
+      <div
+        className="pointer-events-none relative mx-auto mt-14 max-w-[88rem] select-none overflow-hidden px-5 sm:px-8 lg:px-12"
+        aria-hidden="true"
+      >
+        <p className="display-index -mb-[0.18em] whitespace-nowrap text-[clamp(4rem,11.5vw,11rem)] font-bold uppercase text-white/[0.04]">
+          Monting Plus
+        </p>
+      </div>
     </footer>
   );
 }
 
-function FooterGroup({ title, children }: { title: string; children: React.ReactNode }) {
+function FooterGroup({
+  index,
+  title,
+  children,
+}: {
+  index: number;
+  title: string;
+  children: React.ReactNode;
+}) {
   return (
     <div>
-      <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-slate-500">{title}</h3>
-      <div className="mt-4 grid gap-2 text-sm leading-6 text-slate-300 [&_a]:transition [&_a:hover]:text-white">
+      <div className="flex items-center gap-3">
+        <span className="display-index text-[11px] font-bold text-gold/70">
+          {String(index).padStart(2, "0")}
+        </span>
+        <span className="h-px w-6 bg-white/15" aria-hidden="true" />
+        <h3 className="text-[11px] font-bold uppercase tracking-[0.24em] text-white/45">
+          {title}
+        </h3>
+      </div>
+      <div className="mt-5 grid gap-2.5 text-sm leading-6 text-white/60 [&_a]:transition-colors [&_a:hover]:text-white">
         {children}
       </div>
     </div>
+  );
+}
+
+export function Eyebrow({
+  children,
+  withRule = false,
+}: {
+  children: React.ReactNode;
+  withRule?: boolean;
+}) {
+  return (
+    <div className={cn(withRule && "flex items-center gap-5")}>
+      {withRule ? <span className="h-px w-14 gold-hairline" aria-hidden="true" /> : null}
+      <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-gold">
+        {children}
+      </p>
+    </div>
+  );
+}
+
+export function DisplayTitle({
+  children,
+  as: Tag = "h2",
+  className,
+}: {
+  children: React.ReactNode;
+  as?: "h1" | "h2";
+  className?: string;
+}) {
+  return (
+    <Tag
+      className={cn(
+        "text-balance text-[clamp(2.1rem,4.2vw,3.6rem)] font-semibold leading-[1.04] tracking-[-0.01em] text-white",
+        className,
+      )}
+    >
+      {children}
+    </Tag>
+  );
+}
+
+export function GoldButton({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <Button
+      asChild
+      size="lg"
+      className="h-14 bg-gold px-8 text-base font-semibold text-graphite shadow-[0_18px_44px_oklch(0.74_0.105_88/0.28)] hover:bg-gold-bright hover:shadow-[0_22px_54px_oklch(0.74_0.105_88/0.36)]"
+    >
+      <Link href={href}>
+        {children}
+        <ArrowRight data-icon="inline-end" />
+      </Link>
+    </Button>
+  );
+}
+
+export function GhostButton({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <Button
+      asChild
+      size="lg"
+      variant="ghost"
+      className="h-14 border border-white/15 bg-white/[0.04] px-7 text-base text-white/80 backdrop-blur hover:border-gold/50 hover:bg-white/[0.08] hover:text-white"
+    >
+      <Link href={href}>{children}</Link>
+    </Button>
   );
 }
 
@@ -124,7 +267,6 @@ export function SectionHeader({
   title,
   text,
   align = "left",
-  inverted = false,
   className,
 }: {
   eyebrow?: string;
@@ -137,15 +279,18 @@ export function SectionHeader({
   return (
     <div className={cn("scroll-reveal max-w-5xl", align === "center" && "mx-auto text-center", className)}>
       {eyebrow ? (
-        <p className={cn("eyebrow mb-4 text-xs font-bold uppercase tracking-[0.24em]", inverted ? "text-orange-300" : "text-orange-600")}>
-          {eyebrow}
-        </p>
+        <div className={cn("mb-5 flex items-center gap-5", align === "center" && "justify-center")}>
+          <span className="h-px w-12 gold-hairline" aria-hidden="true" />
+          <p className="eyebrow text-[11px] font-bold uppercase tracking-[0.3em] text-gold">
+            {eyebrow}
+          </p>
+        </div>
       ) : null}
-      <h2 className={cn("text-[clamp(2rem,3.2vw,3rem)] font-semibold leading-[1.08] tracking-normal", inverted ? "text-white" : "text-slate-950")}>
+      <h2 className="text-balance text-[clamp(2rem,3.4vw,3.2rem)] font-semibold leading-[1.06] tracking-[-0.01em] text-white">
         {title}
       </h2>
       {text ? (
-        <p className={cn("mt-5 max-w-3xl text-lg leading-8", align === "center" && "mx-auto", inverted ? "text-slate-300" : "text-slate-600")}>
+        <p className={cn("mt-5 max-w-3xl text-lg leading-8 text-white/60", align === "center" && "mx-auto")}>
           {text}
         </p>
       ) : null}
@@ -173,29 +318,35 @@ export function CardGrid({
         <article
           key={`${card.title}-${index}`}
           className={cn(
-            "motion-card scroll-reveal rounded-lg border p-6",
+            "motion-card scroll-reveal group flex min-h-[180px] flex-col justify-between rounded-2xl p-7 transition-colors duration-300",
             muted
-              ? "border-white/10 bg-white/6 text-white"
-              : "border-slate-200 bg-white shadow-sm shadow-slate-200/60",
+              ? "border border-white/10 bg-white/[0.04] hover:border-gold/30"
+              : "industrial-panel hover:border-gold/30",
+            "text-white",
           )}
         >
-          <p className={cn("text-xs font-bold uppercase tracking-[0.16em]", muted ? "text-orange-300" : "text-orange-600")}>
-            / {String(index + 1).padStart(2, "0")}
-          </p>
-          <h3 className="mt-5 text-xl font-semibold tracking-normal">{card.title}</h3>
-          <p className={cn("mt-3 whitespace-pre-line text-sm leading-7", muted ? "text-slate-300" : "text-slate-600")}>
-            {card.text}
-          </p>
-          {card.items ? (
-            <ul className={cn("mt-5 grid gap-2 text-sm", muted ? "text-slate-200" : "text-slate-700")}>
-              {card.items.map((item) => (
-                <li key={item} className="flex gap-2">
-                  <span className="mt-2 size-1.5 shrink-0 rounded-full bg-orange-500" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          ) : null}
+          <div className="flex items-start justify-between">
+            <span className="mt-1.5 h-px w-7 bg-gold" aria-hidden="true" />
+            <span className="display-index text-3xl font-bold text-white/[0.12] transition-colors duration-500 group-hover:text-gold/50">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+          </div>
+          <div>
+            <h3 className="mt-6 text-lg font-semibold leading-snug text-white">{card.title}</h3>
+            <p className="mt-2 whitespace-pre-line text-sm leading-7 text-white/55">
+              {card.text}
+            </p>
+            {card.items ? (
+              <ul className="mt-4 grid gap-2 text-sm text-titanium/80">
+                {card.items.map((item) => (
+                  <li key={item} className="flex items-center gap-2.5">
+                    <span className="h-px w-4 bg-gold/60" aria-hidden="true" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
         </article>
       ))}
     </div>
@@ -206,45 +357,43 @@ export function ServiceCardGrid({ cards }: { cards: Card[] }) {
   return (
     <div className="reveal-stagger grid gap-4 md:grid-cols-2 xl:grid-cols-3">
       {cards.map((card, index) => (
-          <article
-            key={`${card.title}-${index}`}
-            className="motion-card scroll-reveal group relative min-h-[430px] overflow-hidden rounded-lg border border-slate-700/70 bg-slate-950 text-white shadow-[0_24px_70px_rgba(2,6,23,0.28)] ring-1 ring-white/5"
-          >
-            <Image
-              src={serviceCardImages[index % serviceCardImages.length]}
-              alt=""
-              fill
-              className="object-cover object-right transition duration-500 group-hover:scale-[1.03]"
-              sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
-            />
-            <div className="absolute inset-0 bg-linear-to-t from-slate-950/92 via-slate-950/58 to-slate-950/18" />
+        <article
+          key={`${card.title}-${index}`}
+          className="motion-card scroll-reveal group relative min-h-[430px] overflow-hidden rounded-2xl border border-white/10 bg-graphite text-white transition-colors duration-300 hover:border-gold/30"
+        >
+          <Image
+            src={serviceCardImages[index % serviceCardImages.length]}
+            alt=""
+            fill
+            className="object-cover object-left transition duration-700 group-hover:scale-[1.03]"
+            sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
+          />
+          <div className="absolute inset-0 bg-linear-to-t from-graphite via-graphite/55 to-graphite/15" />
 
-            <div className="relative flex min-h-[430px] flex-col p-6 sm:p-7">
-              <div className="flex items-start">
-                <p className="text-sm font-bold uppercase tracking-[0.2em] text-orange-500">
-                  / {String(index + 1).padStart(2, "0")}
-                </p>
-              </div>
+          <div className="relative flex min-h-[430px] flex-col justify-between p-6 sm:p-7">
+            <div className="flex items-start justify-between">
+              <span className="mt-1.5 h-px w-7 bg-gold" aria-hidden="true" />
+              <span className="display-index text-4xl font-bold text-white/[0.16] transition-colors duration-500 group-hover:text-gold/50">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+            </div>
 
-              <div className="mt-10 max-w-[27rem]">
-                <h3 className="text-3xl font-semibold leading-tight tracking-normal text-white">
-                  {card.title}
-                </h3>
-                <p className="mt-6 text-lg font-medium leading-8 text-slate-300">
-                  {card.text}
-                </p>
-                <div className="mt-8 h-px w-12 bg-orange-600" />
-              </div>
-
+            <div>
+              <h3 className="text-2xl font-semibold leading-tight text-white">
+                {card.title}
+              </h3>
+              <p className="mt-3 text-base leading-7 text-titanium/80">
+                {card.text}
+              </p>
               {card.items ? (
-                <ul className="mt-8 grid gap-0 text-base font-semibold text-slate-100">
+                <ul className="mt-6 grid gap-0 text-sm font-semibold text-white/85">
                   {card.items.map((item) => (
                     <li
                       key={item}
-                      className="flex min-h-14 items-center gap-4 border-b border-white/7 py-3 first:border-t"
+                      className="flex min-h-12 items-center gap-3 border-b border-white/[0.07] py-2.5 first:border-t"
                     >
                       <ChevronRight
-                        className="motion-icon size-5 shrink-0 stroke-[2.4] text-orange-500"
+                        className="motion-icon size-4 shrink-0 stroke-[2.4] text-gold-dim"
                         aria-hidden="true"
                       />
                       <span>{item}</span>
@@ -253,7 +402,8 @@ export function ServiceCardGrid({ cards }: { cards: Card[] }) {
                 </ul>
               ) : null}
             </div>
-          </article>
+          </div>
+        </article>
       ))}
     </div>
   );
@@ -261,9 +411,9 @@ export function ServiceCardGrid({ cards }: { cards: Card[] }) {
 
 export function ContactStrip({ content }: { content: SiteContent }) {
   const linkClass =
-    "motion-card group flex min-h-16 cursor-pointer items-center gap-3 rounded-lg border border-white/10 bg-white/8 p-4 text-sm font-semibold text-white shadow-lg shadow-slate-950/20 transition-all duration-200 hover:border-orange-300/70 hover:bg-white/12 hover:shadow-orange-950/10 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-orange-300/30";
+    "motion-card group flex min-h-16 cursor-pointer items-center gap-3 rounded-lg border border-white/10 bg-white/8 p-4 text-sm font-semibold text-white shadow-lg shadow-slate-950/20 transition-all duration-200 hover:border-gold/60 hover:bg-white/12 hover:shadow-black/15 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-gold/30";
   const iconClass =
-    "motion-icon flex size-10 shrink-0 items-center justify-center rounded-md bg-orange-500/12 text-orange-200 transition-colors duration-200 group-hover:bg-orange-500/18 group-hover:text-orange-100";
+    "motion-icon flex size-10 shrink-0 items-center justify-center rounded-md bg-gold/15 text-gold-bright transition-colors duration-200 group-hover:bg-gold-bright/18 group-hover:text-gold-bright";
 
   return (
     <div className="reveal-stagger grid gap-3">
