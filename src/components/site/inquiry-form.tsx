@@ -39,7 +39,7 @@ export function InquiryForm({ content, compact = false, dark = false }: InquiryF
   return (
     <Form
       className={cn(
-        "relative overflow-hidden rounded-lg p-4 sm:p-6 lg:p-7",
+        "relative overflow-hidden rounded-sm p-4 sm:p-6 lg:p-7",
         dark
           ? "border border-white/10 bg-transparent text-white"
           : "border border-slate-200 bg-white text-slate-950 shadow-2xl shadow-slate-950/35",
@@ -49,7 +49,7 @@ export function InquiryForm({ content, compact = false, dark = false }: InquiryF
       <div className={compact ? "mb-5" : "mb-7"}>
         <div
           className={cn(
-            "eyebrow mb-4 inline-flex h-9 items-center gap-2 rounded-md border px-3 text-xs font-bold uppercase tracking-[0.14em]",
+            "eyebrow mb-4 inline-flex h-9 items-center gap-2 rounded-sm border px-3 text-xs font-bold uppercase tracking-[0.14em]",
             dark
               ? "border-white/12 bg-white/[0.05] text-white/65"
               : "border-slate-200 bg-slate-50 text-slate-600",

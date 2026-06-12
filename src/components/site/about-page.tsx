@@ -51,7 +51,7 @@ export function AboutPageView({ content }: { content: SiteContent }) {
             </div>
 
             <div className="hidden items-end lg:flex">
-              <div className="animate-float-in industrial-panel grid w-full grid-cols-3 divide-x divide-white/[0.07] rounded-2xl">
+              <div className="animate-float-in industrial-panel grid w-full grid-cols-3 divide-x divide-white/[0.07] rounded-sm">
                 {content.home.stats.slice(0, 3).map((stat) => (
                   <div key={stat.title} className="p-6">
                     <p className="display-index text-3xl font-semibold text-gradient-gold">
@@ -122,7 +122,7 @@ export function AboutPageView({ content }: { content: SiteContent }) {
         {/* Image + stats */}
         <section className="py-24">
           <div className="mx-auto grid max-w-[88rem] items-center gap-10 px-5 sm:px-8 lg:grid-cols-[1.1fr_0.9fr] lg:px-12">
-            <div className="scroll-reveal relative min-h-[340px] overflow-hidden rounded-2xl border border-white/10">
+            <div className="scroll-reveal relative min-h-[340px] overflow-hidden rounded-sm border border-white/10">
               <Image
                 src="/images/industrial-team.jpg"
                 alt="Monting Plus crews on site"
@@ -132,7 +132,7 @@ export function AboutPageView({ content }: { content: SiteContent }) {
               />
               <div className="absolute inset-0 bg-linear-to-t from-graphite/75 to-transparent" />
             </div>
-            <div className="reveal-stagger grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10">
+            <div className="reveal-stagger grid grid-cols-2 gap-px overflow-hidden rounded-sm border border-white/10 bg-white/10">
               {content.home.stats.map((stat) => (
                 <div key={stat.title} className="bg-anthracite p-7">
                   <p className="display-index text-[clamp(2.2rem,3.4vw,3.2rem)] font-semibold text-gradient-gold">
@@ -169,7 +169,7 @@ function ValueCard({
   text: string;
 }) {
   return (
-    <article className="motion-card scroll-reveal group industrial-panel flex min-h-[200px] flex-col justify-between rounded-2xl p-7 transition-colors duration-300 hover:border-gold/30">
+    <article className="motion-card scroll-reveal group industrial-panel flex min-h-[200px] flex-col justify-between rounded-sm p-7 transition-colors duration-300 hover:border-gold/30">
       <Icon className="motion-icon size-6 text-gold" aria-hidden="true" />
       <div>
         <h3 className="mt-6 text-lg font-semibold leading-snug text-white">{title}</h3>

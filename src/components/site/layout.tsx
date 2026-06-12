@@ -51,14 +51,14 @@ export function StickyCta({ content }: { content: SiteContent }) {
       <div className="mx-auto flex max-w-7xl items-center gap-2">
         <a
           href={`tel:${content.contact.phone.replaceAll(" ", "")}`}
-          className="inline-flex h-11 min-w-0 flex-1 items-center justify-center gap-2 rounded-lg bg-white/10 px-3 text-sm font-semibold transition-all duration-200 hover:bg-white/16 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-white/30"
+          className="inline-flex h-11 min-w-0 flex-1 items-center justify-center gap-2 rounded-sm bg-white/10 px-3 text-sm font-semibold transition-all duration-200 hover:bg-white/16 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-white/30"
         >
           <Phone className="size-4" aria-hidden="true" />
           <span className="truncate">{content.contact.phone}</span>
         </a>
         <Link
           href="/contact"
-          className="inline-flex h-11 min-w-0 flex-1 items-center justify-center rounded-lg bg-gold text-graphite px-4 text-sm font-semibold shadow-sm transition-all duration-200 hover:bg-gold-bright hover:shadow-md hover:shadow-gold/25 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-gold/40"
+          className="inline-flex h-11 min-w-0 flex-1 items-center justify-center rounded-sm bg-gold text-graphite px-4 text-sm font-semibold shadow-sm transition-all duration-200 hover:bg-gold-bright hover:shadow-md hover:shadow-gold/25 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-gold/40"
         >
           <span className="truncate">{content.nav.quote}</span>
         </Link>
@@ -97,7 +97,7 @@ export function SiteFooter({ content }: { content: SiteContent }) {
           <div className="flex flex-col items-start gap-4 lg:items-end">
             <Link
               href="/contact"
-              className="group inline-flex h-14 items-center gap-3 rounded-lg bg-gold px-8 text-base font-semibold text-graphite shadow-[0_18px_44px_oklch(0.74_0.105_88/0.25)] transition-all duration-300 hover:bg-gold-bright focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-gold/40"
+              className="group inline-flex h-14 items-center gap-3 rounded-sm bg-gold px-8 text-base font-semibold text-graphite shadow-[0_18px_44px_oklch(0.74_0.105_88/0.25)] transition-all duration-300 hover:bg-gold-bright focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-gold/40"
             >
               {content.nav.quote}
               <ChevronRight className="motion-icon size-4 stroke-[2.6]" aria-hidden="true" />
@@ -206,10 +206,36 @@ export function Eyebrow({
   return (
     <div className={cn(withRule && "flex items-center gap-5")}>
       {withRule ? <span className="h-px w-14 gold-hairline" aria-hidden="true" /> : null}
-      <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-gold">
+      <p className="font-heading text-[11px] font-bold uppercase tracking-[0.3em] text-gold">
         {children}
       </p>
     </div>
+  );
+}
+
+/**
+ * Two-tone display treatment from the brand direction: if the title holds
+ * two sentences, the second one is set in steel on its own line; otherwise
+ * the final word turns steel.
+ */
+export function TwoTone({ text }: { text: string }) {
+  const trimmed = text.trim();
+  const sentenceBreak = trimmed.indexOf(". ");
+  if (sentenceBreak > -1 && sentenceBreak < trimmed.length - 2) {
+    return (
+      <>
+        {trimmed.slice(0, sentenceBreak + 1)}
+        <span className="block text-steel">{trimmed.slice(sentenceBreak + 1).trim()}</span>
+      </>
+    );
+  }
+  const words = trimmed.split(" ");
+  if (words.length < 3) return <>{trimmed}</>;
+  const last = words.pop();
+  return (
+    <>
+      {words.join(" ")} <span className="text-steel">{last}</span>
+    </>
   );
 }
 
@@ -225,11 +251,11 @@ export function DisplayTitle({
   return (
     <Tag
       className={cn(
-        "text-balance text-[clamp(2.1rem,4.2vw,3.6rem)] font-semibold leading-[1.04] tracking-[-0.01em] text-white",
+        "text-balance text-[clamp(2.3rem,4.6vw,4rem)] font-bold leading-[0.98] text-white",
         className,
       )}
     >
-      {children}
+      {typeof children === "string" ? <TwoTone text={children} /> : children}
     </Tag>
   );
 }
@@ -239,7 +265,7 @@ export function GoldButton({ href, children }: { href: string; children: React.R
     <Button
       asChild
       size="lg"
-      className="h-14 bg-gold px-8 text-base font-semibold text-graphite shadow-[0_18px_44px_oklch(0.74_0.105_88/0.28)] hover:bg-gold-bright hover:shadow-[0_22px_54px_oklch(0.74_0.105_88/0.36)]"
+      className="h-14 rounded-sm bg-gold px-8 font-heading text-sm font-bold uppercase tracking-[0.12em] text-graphite shadow-[0_18px_44px_oklch(0.74_0.105_88/0.28)] hover:bg-gold-bright hover:shadow-[0_22px_54px_oklch(0.74_0.105_88/0.36)]"
     >
       <Link href={href}>
         {children}
@@ -255,7 +281,7 @@ export function GhostButton({ href, children }: { href: string; children: React.
       asChild
       size="lg"
       variant="ghost"
-      className="h-14 border border-white/15 bg-white/[0.04] px-7 text-base text-white/80 backdrop-blur hover:border-gold/50 hover:bg-white/[0.08] hover:text-white"
+      className="h-14 rounded-sm border border-white/15 bg-white/[0.04] px-7 font-heading text-sm font-bold uppercase tracking-[0.12em] text-white/80 backdrop-blur hover:border-gold/50 hover:bg-white/[0.08] hover:text-white"
     >
       <Link href={href}>{children}</Link>
     </Button>
@@ -281,13 +307,13 @@ export function SectionHeader({
       {eyebrow ? (
         <div className={cn("mb-5 flex items-center gap-5", align === "center" && "justify-center")}>
           <span className="h-px w-12 gold-hairline" aria-hidden="true" />
-          <p className="eyebrow text-[11px] font-bold uppercase tracking-[0.3em] text-gold">
+          <p className="eyebrow font-heading text-[11px] font-bold uppercase tracking-[0.3em] text-gold">
             {eyebrow}
           </p>
         </div>
       ) : null}
-      <h2 className="text-balance text-[clamp(2rem,3.4vw,3.2rem)] font-semibold leading-[1.06] tracking-[-0.01em] text-white">
-        {title}
+      <h2 className="text-balance text-[clamp(2.1rem,3.8vw,3.5rem)] font-bold leading-[0.98] text-white">
+        <TwoTone text={title} />
       </h2>
       {text ? (
         <p className={cn("mt-5 max-w-3xl text-lg leading-8 text-white/60", align === "center" && "mx-auto")}>
@@ -318,7 +344,7 @@ export function CardGrid({
         <article
           key={`${card.title}-${index}`}
           className={cn(
-            "motion-card scroll-reveal group flex min-h-[180px] flex-col justify-between rounded-2xl p-7 transition-colors duration-300",
+            "motion-card scroll-reveal group flex min-h-[180px] flex-col justify-between rounded-sm p-7 transition-colors duration-300",
             muted
               ? "border border-white/10 bg-white/[0.04] hover:border-gold/30"
               : "industrial-panel hover:border-gold/30",
@@ -359,7 +385,7 @@ export function ServiceCardGrid({ cards }: { cards: Card[] }) {
       {cards.map((card, index) => (
         <article
           key={`${card.title}-${index}`}
-          className="motion-card scroll-reveal group relative min-h-[430px] overflow-hidden rounded-2xl border border-white/10 bg-graphite text-white transition-colors duration-300 hover:border-gold/30"
+          className="motion-card scroll-reveal group relative min-h-[430px] overflow-hidden rounded-sm border border-white/10 bg-graphite text-white transition-colors duration-300 hover:border-gold/30"
         >
           <Image
             src={serviceCardImages[index % serviceCardImages.length]}
@@ -411,9 +437,9 @@ export function ServiceCardGrid({ cards }: { cards: Card[] }) {
 
 export function ContactStrip({ content }: { content: SiteContent }) {
   const linkClass =
-    "motion-card group flex min-h-16 cursor-pointer items-center gap-3 rounded-lg border border-white/10 bg-white/8 p-4 text-sm font-semibold text-white shadow-lg shadow-slate-950/20 transition-all duration-200 hover:border-gold/60 hover:bg-white/12 hover:shadow-black/15 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-gold/30";
+    "motion-card group flex min-h-16 cursor-pointer items-center gap-3 rounded-sm border border-white/10 bg-white/8 p-4 text-sm font-semibold text-white shadow-lg shadow-slate-950/20 transition-all duration-200 hover:border-gold/60 hover:bg-white/12 hover:shadow-black/15 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-gold/30";
   const iconClass =
-    "motion-icon flex size-10 shrink-0 items-center justify-center rounded-md bg-gold/15 text-gold-bright transition-colors duration-200 group-hover:bg-gold-bright/18 group-hover:text-gold-bright";
+    "motion-icon flex size-10 shrink-0 items-center justify-center rounded-sm bg-gold/15 text-gold-bright transition-colors duration-200 group-hover:bg-gold-bright/18 group-hover:text-gold-bright";
 
   return (
     <div className="reveal-stagger grid gap-3">

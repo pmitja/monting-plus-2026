@@ -141,7 +141,7 @@ export function TeamPageView({ content, locale }: TeamPageProps) {
               </ul>
             </div>
             <div className="hidden items-end justify-end lg:flex">
-              <div className="animate-float-in industrial-panel max-w-md rounded-2xl p-8">
+              <div className="animate-float-in industrial-panel max-w-md rounded-sm p-8">
                 <span className="block h-px w-12 gold-hairline" aria-hidden="true" />
                 <p className="mt-5 text-[11px] font-bold uppercase tracking-[0.3em] text-gold">
                   Monting Plus Teams
@@ -177,7 +177,7 @@ export function TeamPageView({ content, locale }: TeamPageProps) {
                 <MiniStat icon={CalendarRange} title={copy.duration as string} text={(copy.durations as string[]).join(" · ")} />
               </div>
             </div>
-            <div className="scroll-reveal industrial-panel rounded-2xl p-2">
+            <div className="scroll-reveal industrial-panel rounded-sm p-2">
               <TeamRequestForm content={content} copy={copy} />
             </div>
           </div>
@@ -192,7 +192,7 @@ export function TeamPageView({ content, locale }: TeamPageProps) {
               title={copy.recruitTitle as string}
               text={copy.recruitText as string}
             />
-            <div className="motion-card scroll-reveal group industrial-panel rounded-2xl p-8 transition-colors duration-300 hover:border-gold/30">
+            <div className="motion-card scroll-reveal group industrial-panel rounded-sm p-8 transition-colors duration-300 hover:border-gold/30">
               <HardHat className="motion-icon size-8 text-gold" aria-hidden="true" />
               <p className="mt-6 text-xl font-semibold text-white">{content.home.team[2].title}</p>
               <p className="mt-3 text-sm leading-7 text-white/55">{content.home.team[2].text}</p>
@@ -215,7 +215,7 @@ function TeamRequestForm({
   copy: (typeof teamCopy)[Locale];
 }) {
   return (
-    <Form className="relative overflow-hidden rounded-lg border border-white/10 p-4 text-white sm:p-6">
+    <Form className="relative overflow-hidden rounded-sm border border-white/10 p-4 text-white sm:p-6">
       <div className="absolute inset-x-0 top-0 h-px gold-hairline" aria-hidden="true" />
       <FieldGroup className="grid gap-4 sm:grid-cols-2">
         <Field>
@@ -294,7 +294,7 @@ function MiniStat({
   text: string;
 }) {
   return (
-    <div className="motion-card scroll-reveal group industrial-panel rounded-xl p-5 transition-colors duration-300 hover:border-gold/30">
+    <div className="motion-card scroll-reveal group industrial-panel rounded-sm p-5 transition-colors duration-300 hover:border-gold/30">
       <Icon className="motion-icon size-5 text-gold" aria-hidden="true" />
       <p className="mt-4 text-sm font-semibold text-white">{title}</p>
       <p className="mt-1 text-xs leading-5 text-white/55">{text}</p>

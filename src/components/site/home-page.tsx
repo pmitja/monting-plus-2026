@@ -1,4 +1,3 @@
-import { CheckCircle2, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 
 import type { SiteContent } from "@/lib/site-content";
@@ -12,13 +11,32 @@ import {
   GhostButton,
   GoldButton,
   SiteShell,
+  TwoTone,
 } from "./layout";
+
+/**
+ * Splits the hero headline into the discipline statement and the region
+ * qualifier ("… für Deutschland und Europa"), which is set as a gold
+ * sub-line per the brand direction. Works across all four locales.
+ */
+function splitHeroTitle(title: string): [string, string | null] {
+  const match = title.match(/\s(für|for|za)\s/i);
+  if (!match || match.index === undefined) return [title, null];
+  return [title.slice(0, match.index), title.slice(match.index + 1)];
+}
 import { PhaseRail } from "./phase-rail";
 
 const whyCardImages = [
   "/images/cards/sotori.webp",
   "/images/cards/vodenje.webp",
   "/images/cards/mobilizacija.webp",
+] as const;
+
+const referenceImages = [
+  "/images/cards/stahlbau.webp",
+  "/images/cards/hvac.webp",
+  "/images/cards/transportni-sistemi.webp",
+  "/images/cards/remont.webp",
 ] as const;
 
 export function HomePageView({ content }: { content: SiteContent }) {
@@ -98,35 +116,51 @@ function PhaseMarker({ index, label }: { index: number; label: string }) {
 /* ------------------------------------------------------------------ */
 
 function Hero({ content }: { content: SiteContent }) {
+  const [titleMain, titleSuffix] = splitHeroTitle(content.home.title);
+  const disciplines = content.home.services.slice(0, 4).map((s) => s.title);
+
   return (
     <section data-hero data-phase="0" className="relative min-h-svh overflow-hidden">
-      {/* Layered photography behind the wireframe environment */}
+      {/* Pure wireframe environment — grounded by a soft floor gradient */}
       <div className="absolute inset-0" aria-hidden="true">
-        <Image
-          src="/images/industrial-steel-structure.jpg"
-          alt=""
-          fill
-          priority
-          fetchPriority="high"
-          className="hero-media object-cover opacity-25"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(100deg,oklch(0.13_0.006_260/0.96)_0%,oklch(0.13_0.006_260/0.78)_45%,oklch(0.13_0.006_260/0.4)_75%,oklch(0.13_0.006_260/0.65)_100%)]" />
         <div className="absolute inset-x-0 bottom-0 h-48 bg-linear-to-t from-graphite to-transparent" />
       </div>
 
-      <div className="relative mx-auto flex min-h-svh max-w-[88rem] flex-col justify-end px-5 pb-16 pt-36 sm:px-8 lg:px-12">
-        <div className="reveal-stagger max-w-[60rem]">
-          <div className="flex items-center gap-5">
-            <span className="h-px w-14 gold-hairline" />
-            <Eyebrow>{content.home.eyebrow}</Eyebrow>
-          </div>
+      <div className="relative mx-auto flex min-h-svh max-w-[88rem] flex-col px-5 pb-16 pt-32 sm:px-8 lg:px-12">
+        {/* Discipline index pinned under the header */}
+        <ul className="reveal-stagger flex flex-wrap gap-x-8 gap-y-2" aria-label="Disziplinen">
+          {disciplines.map((discipline, i) => (
+            <li
+              key={discipline}
+              className="flex items-center gap-8 font-heading text-[12px] font-semibold uppercase tracking-[0.3em] text-white/45"
+            >
+              {discipline}
+              {i < disciplines.length - 1 ? (
+                <span className="text-gold/60" aria-hidden="true">·</span>
+              ) : null}
+            </li>
+          ))}
+        </ul>
 
-          <h1 className="mt-8 hyphens-auto text-balance text-[clamp(2.1rem,6vw,5.4rem)] font-semibold leading-[1.05] tracking-[-0.015em] text-white">
-            {content.home.title}
+        <div className="reveal-stagger mt-auto max-w-[72rem] pt-14">
+          <h1 className="hyphens-auto text-[clamp(2.6rem,7vw,6.5rem)] font-bold leading-[0.95] text-white">
+            <TwoTone text={titleMain} />
           </h1>
 
-          <p className="mt-8 max-w-[42rem] text-pretty text-lg leading-8 text-titanium/85 sm:text-xl sm:leading-9">
+          {titleSuffix ? (
+            <div className="mt-7 flex items-center gap-6">
+              <span className="h-px w-16 gold-hairline" aria-hidden="true" />
+              <p className="font-heading text-[clamp(1rem,2vw,1.6rem)] font-bold uppercase tracking-[0.18em] text-gold">
+                {titleSuffix}
+              </p>
+            </div>
+          ) : (
+            <div className="mt-7">
+              <Eyebrow withRule>{content.home.eyebrow}</Eyebrow>
+            </div>
+          )}
+
+          <p className="mt-8 max-w-[40rem] text-pretty text-lg leading-8 text-titanium/85 sm:text-xl sm:leading-9">
             {content.home.subtitle}
           </p>
 
@@ -137,7 +171,7 @@ function Hero({ content }: { content: SiteContent }) {
         </div>
 
         {/* Technical trust strip pinned to the hero base */}
-        <div className="scroll-reveal mt-16 border-t border-white/10 pt-6">
+        <div className="scroll-reveal mt-14 border-t border-white/10 pt-6">
           <ul className="flex flex-wrap gap-x-10 gap-y-3">
             {content.home.trust.map((tag) => (
               <li
@@ -175,7 +209,7 @@ function Hero({ content }: { content: SiteContent }) {
 function StatsBand({ stats }: { stats: SiteContent["home"]["stats"] }) {
   return (
     <div className="mx-auto max-w-[88rem] px-5 pt-14 sm:px-8 lg:px-12">
-      <div className="reveal-stagger industrial-panel grid grid-cols-2 divide-white/[0.07] rounded-2xl lg:grid-cols-4 lg:divide-x">
+      <div className="reveal-stagger industrial-panel grid grid-cols-2 divide-white/[0.07] rounded-sm lg:grid-cols-4 lg:divide-x">
         {stats.map((stat) => (
           <div key={stat.title} className="px-7 py-8 lg:px-9 lg:py-10">
             <p className="display-index text-[clamp(2.6rem,4vw,3.8rem)] font-semibold text-gradient-gold">
@@ -249,7 +283,7 @@ function EngineeringSection({ content }: { content: SiteContent }) {
 
         <div className="scroll-reveal relative min-h-[420px] lg:min-h-0">
           <div className="absolute -left-4 top-10 hidden h-[calc(100%-5rem)] w-px gold-hairline lg:block" />
-          <div className="relative h-full min-h-[420px] overflow-hidden rounded-2xl border border-white/10">
+          <div className="relative h-full min-h-[420px] overflow-hidden rounded-sm border border-white/10">
             <Image
               src="/images/cards/stahlbau.webp"
               alt="Large-scale steel construction site at night"
@@ -279,7 +313,7 @@ function FabricationSection({ content }: { content: SiteContent }) {
     <div className="mx-auto max-w-[88rem] px-5 pb-32 pt-14 sm:px-8 lg:px-12">
       <div className="grid gap-12 lg:grid-cols-[0.38fr_1fr] lg:gap-16">
         <div className="lg:sticky lg:top-32 lg:self-start">
-          <div className="scroll-reveal industrial-panel rounded-2xl p-8 lg:p-9">
+          <div className="scroll-reveal industrial-panel rounded-sm p-8 lg:p-9">
             <Eyebrow>{content.home.servicesTitle}</Eyebrow>
             <p className="mt-5 text-pretty text-lg leading-8 text-titanium/85">
               {content.home.servicesIntro}
@@ -339,7 +373,7 @@ function InstallationSection({ content }: { content: SiteContent }) {
         {content.home.why.map((card, index) => (
           <article
             key={card.title}
-            className="motion-card scroll-reveal group relative min-h-[480px] overflow-hidden rounded-2xl border border-white/10 lg:[&:nth-child(2)]:translate-y-10"
+            className="motion-card scroll-reveal group relative min-h-[480px] overflow-hidden rounded-sm border border-white/10 lg:[&:nth-child(2)]:translate-y-10"
           >
             <Image
               src={whyCardImages[index % whyCardImages.length]}
@@ -364,7 +398,7 @@ function InstallationSection({ content }: { content: SiteContent }) {
 
       {/* Team structure */}
       <div className="grid gap-12 pb-8 pt-28 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20 lg:pt-36">
-        <div className="scroll-reveal relative min-h-[360px] overflow-hidden rounded-2xl border border-white/10">
+        <div className="scroll-reveal relative min-h-[360px] overflow-hidden rounded-sm border border-white/10">
           <Image
             src="/images/industrial-team.jpg"
             alt="Monting Plus assembly crews on a European industrial site"
@@ -379,7 +413,7 @@ function InstallationSection({ content }: { content: SiteContent }) {
             <Eyebrow>{content.home.teamTitle}</Eyebrow>
             <DisplayTitle className="mt-6">{content.home.teamIntro}</DisplayTitle>
           </div>
-          <div className="reveal-stagger mt-10 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-3">
+          <div className="reveal-stagger mt-10 grid gap-px overflow-hidden rounded-sm border border-white/10 bg-white/10 sm:grid-cols-3">
             {content.home.team.map((member) => (
               <div key={member.title} className="bg-anthracite p-6">
                 <h3 className="text-base font-semibold text-white">{member.title}</h3>
@@ -403,25 +437,40 @@ function ReferencesSection({ content }: { content: SiteContent }) {
         </p>
       </div>
       <div className="reveal-stagger mt-12 grid gap-4 lg:grid-cols-2">
-        {content.home.projects.map((project) => (
+        {content.home.projects.map((project, index) => (
           <article
             key={project.title}
-            className="motion-card scroll-reveal industrial-panel rounded-2xl p-8 transition-colors hover:border-gold/30"
+            className="motion-card scroll-reveal group overflow-hidden rounded-sm border border-white/10 transition-colors hover:border-gold/30"
           >
-            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-gold">
-              {project.meta}
-            </p>
-            <h3 className="mt-4 text-xl font-semibold leading-snug text-white">
-              {project.title}
-            </h3>
-            <ul className="mt-6 grid gap-2.5 text-sm text-titanium/80">
-              {project.items.map((item) => (
-                <li key={item} className="flex gap-3">
-                  <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-gold" />
-                  {item}
-                </li>
-              ))}
-            </ul>
+            <div className="relative h-52 overflow-hidden border-b border-white/10">
+              <Image
+                src={referenceImages[index % referenceImages.length]}
+                alt=""
+                fill
+                className="object-cover object-left transition-transform duration-700 group-hover:scale-[1.03]"
+                sizes="(min-width: 1024px) 44vw, 100vw"
+              />
+              <div className="absolute inset-0 bg-linear-to-t from-graphite/70 to-graphite/10" />
+            </div>
+            <div className="p-8">
+              <p className="font-heading text-[11px] font-bold uppercase tracking-[0.26em] text-gold">
+                {project.meta}
+              </p>
+              <h3 className="mt-4 text-2xl font-bold leading-tight text-white">
+                {project.title}
+              </h3>
+              <div className="mt-6 h-px w-full bg-white/10" aria-hidden="true" />
+              <p className="mt-5 font-heading text-[12px] font-semibold uppercase tracking-[0.18em] text-white/45">
+                {project.items.map((item, i) => (
+                  <span key={item}>
+                    {item}
+                    {i < project.items.length - 1 ? (
+                      <span className="mx-3 text-gold/60" aria-hidden="true">·</span>
+                    ) : null}
+                  </span>
+                ))}
+              </p>
+            </div>
           </article>
         ))}
       </div>
@@ -442,14 +491,18 @@ function CompletionSection({ content }: { content: SiteContent }) {
           {content.home.certificationsIntro}
         </p>
       </div>
-      <div className="reveal-stagger mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="reveal-stagger mt-10 grid gap-3 sm:grid-cols-2">
         {content.home.certifications.map((item) => (
           <div
             key={item}
-            className="motion-card scroll-reveal industrial-panel flex items-center gap-3.5 rounded-xl p-5"
+            className="motion-card scroll-reveal rounded-sm border border-white/10 p-7 transition-colors hover:border-gold/30"
           >
-            <ShieldCheck className="size-5 shrink-0 text-gold" aria-hidden="true" />
-            <span className="text-sm font-semibold text-white/85">{item}</span>
+            <p className="font-heading text-[11px] font-bold uppercase tracking-[0.26em] text-gold">
+              {content.home.certificationsTitle.split(" ")[0]}
+            </p>
+            <p className="mt-3 font-heading text-2xl font-bold uppercase leading-tight text-white">
+              {item}
+            </p>
           </div>
         ))}
       </div>
@@ -462,11 +515,13 @@ function CompletionSection({ content }: { content: SiteContent }) {
             {content.home.availabilityIntro}
           </p>
         </div>
-        <div className="reveal-stagger mx-auto mt-10 grid max-w-4xl gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-3">
+        <div className="reveal-stagger mx-auto mt-12 grid max-w-5xl gap-10 sm:grid-cols-3">
           {content.home.availability.map((slot) => (
-            <div key={slot.title} className="bg-anthracite/90 p-7 text-center">
-              <h3 className="text-lg font-semibold text-gold">{slot.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-white/60">{slot.text}</p>
+            <div key={slot.title} className="border-t border-white/20 pt-5 text-left">
+              <h3 className="font-heading text-xl font-bold uppercase text-white">
+                {slot.title}
+              </h3>
+              <p className="mt-2 text-sm leading-6 text-white/55">{slot.text}</p>
             </div>
           ))}
         </div>
@@ -491,7 +546,7 @@ function FinalSection({ content }: { content: SiteContent }) {
         </div>
       </div>
       <div className="scroll-reveal">
-        <div className="industrial-panel rounded-2xl p-2">
+        <div className="industrial-panel rounded-sm p-2">
           <InquiryForm content={content.form} dark />
         </div>
       </div>

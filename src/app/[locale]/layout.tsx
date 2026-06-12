@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans, Sora } from "next/font/google";
+import { Archivo, Saira } from "next/font/google";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
@@ -8,15 +8,16 @@ import { routing, type Locale } from "@/i18n/routing";
 
 import "../globals.css";
 
-const ibmPlexSans = IBM_Plex_Sans({
-  variable: "--font-ibm-plex-sans",
+const archivo = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin", "latin-ext"],
   weight: ["400", "500", "600", "700"],
 });
 
-const sora = Sora({
-  variable: "--font-sora",
+const saira = Saira({
+  variable: "--font-saira",
   subsets: ["latin", "latin-ext"],
+  weight: ["500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -51,7 +52,7 @@ export default async function LocaleLayout({
   return (
     <html
       lang={locale}
-      className={`${ibmPlexSans.variable} ${sora.variable} antialiased`}
+      className={`${archivo.variable} ${saira.variable} antialiased`}
     >
       <body className="flex min-h-screen flex-col">
         <NextIntlClientProvider>{children}</NextIntlClientProvider>

@@ -7,8 +7,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-ibm-plex-sans);
-  --font-heading: var(--font-sora);
+  --font-sans: var(--font-archivo);
+  --font-heading: var(--font-saira);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -57,10 +57,10 @@
 
 :root {
   /* Industrial palette */
-  --graphite: oklch(0.155 0.006 260);
-  --anthracite: oklch(0.205 0.008 260);
-  --charcoal: oklch(0.26 0.01 260);
-  --steel: oklch(0.62 0.012 250);
+  --graphite: oklch(0.135 0.005 260);
+  --anthracite: oklch(0.18 0.007 260);
+  --charcoal: oklch(0.24 0.01 260);
+  --steel: oklch(0.7 0.012 250);
   --titanium: oklch(0.84 0.006 250);
   --gold: oklch(0.74 0.105 88);
   --gold-bright: oklch(0.84 0.115 92);
@@ -157,7 +157,8 @@
   h4,
   h5,
   h6 {
-    @apply font-heading;
+    @apply font-heading uppercase;
+    letter-spacing: 0.005em;
   }
 }
 

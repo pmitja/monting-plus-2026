@@ -131,7 +131,7 @@ export function SiteHeader({ content }: { content: SiteContent }) {
             aria-expanded={menuOpen}
             aria-controls="site-menu"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
-            className="flex size-11 items-center justify-center rounded-md border border-white/12 bg-white/[0.05] text-white transition-colors hover:border-gold/50 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-gold/30 xl:hidden"
+            className="flex size-11 items-center justify-center rounded-sm border border-white/12 bg-white/[0.05] text-white transition-colors hover:border-gold/50 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-gold/30 xl:hidden"
           >
             {menuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>

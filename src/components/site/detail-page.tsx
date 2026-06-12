@@ -70,7 +70,7 @@ export function DetailPageView({
             </div>
 
             <div className="hidden items-end justify-end lg:flex">
-              <div className="animate-float-in industrial-panel max-w-md rounded-2xl p-8">
+              <div className="animate-float-in industrial-panel max-w-md rounded-sm p-8">
                 <span className="block h-px w-12 gold-hairline" aria-hidden="true" />
                 <p className="mt-5 text-[11px] font-bold uppercase tracking-[0.3em] text-gold">
                   Monting Plus
@@ -107,7 +107,7 @@ export function DetailPageView({
               </div>
             </div>
             {isContact ? (
-              <div className="scroll-reveal industrial-panel rounded-2xl p-2">
+              <div className="scroll-reveal industrial-panel rounded-sm p-2">
                 <InquiryForm content={content.form} dark />
               </div>
             ) : (
@@ -115,7 +115,7 @@ export function DetailPageView({
                 <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-gold">
                   {content.home.availabilityTitle}
                 </p>
-                <div className="reveal-stagger mt-6 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-3">
+                <div className="reveal-stagger mt-6 grid gap-px overflow-hidden rounded-sm border border-white/10 bg-white/10 sm:grid-cols-3">
                   {content.home.availability.map((slot) => (
                     <div key={slot.title} className="bg-anthracite/90 p-7">
                       <h3 className="text-lg font-semibold text-gold">{slot.title}</h3>
